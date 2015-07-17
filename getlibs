@@ -23,7 +23,7 @@
 #---
 #Author: Cappy of ubuntuforums.org
 #Website: http://ubuntuforums.org/showthread.php?t=474790
-#Version: 2.06
+#Version: 2.07
 #Purpose: Download and install native and non-native libraries
 #---
 
@@ -89,7 +89,7 @@ else
 fi
 
 #If 64-bit ubuntu and ia32-libs is not installed
-if [ "$architecture" = "x86_64" ] && [ "$distro" = "Ubuntu" ] && [ ! -e "/usr/lib32/libGLU.so.1" ]; then
+if [ "$architecture" = "x86_64" ] && [ "$distro" = "Ubuntu" ] && [ ! -e "/lib32/libGLU.so.1" ]; then
     sudo apt-get install ia32-libs
 elif [ "$architecture" = "x86_64" ] && [ "$distro" = "Debian" ] && [ ! -d "/emul/ia32-linux" ]; then
     sudo apt-get install ia32-libs
@@ -554,12 +554,12 @@ else # --extract
     ldconfigparam=""
     if [ "$distro" = "Ubuntu" ]; then
         if [ -d $tempdir/extracted/usr/lib/ ]; then #If dir exists (and thus files to move)
-            sudo cp -R $tempdir/extracted/usr/lib/* /usr/lib32/ || copy_fail
-            ldconfigparam="$ldconfigparam/usr/lib32/ "
+            sudo cp -R $tempdir/extracted/usr/lib/i386-linux-gnu/* /lib32/ || copy_fail
+            ldconfigparam="$ldconfigparam/lib32/ "
         fi
         if [ -d $tempdir/extracted/lib/ ]; then #If dir exists (and thus files to move)
-            sudo cp -R $tempdir/extracted/lib/* /lib32/ || copy_fail
-            ldconfigparam="$ldconfigparam/lib32/ "
+            sudo cp -R $tempdir/extracted/lib/i386-linux-gnu* /lib/i386-linux-gnu/ || copy_fail
+            ldconfigparam="$ldconfigparam/lib/i386-linux-gnu/ "
         fi
     elif [ "$distro" = "Debian" ]; then
         sudo cp -R $tempdir/extracted/* /emul/ia32-linux/ || copy_fail
